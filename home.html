@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Your Placement</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #e8f5e9;
+      color: #333;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: linear-gradient(45deg, #4caf50, #ffeb3b);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-bottom: 5px solid #4caf50;
+    }
+
+    header img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #fff;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav a {
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      background-color: #4caf50;
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #388e3c;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .main-section {
+      margin-bottom: 40px;
+      border: 3px solid #4caf50;
+      border-radius: 15px;
+      padding: 20px;
+      background: linear-gradient(45deg, #ffffff, #e8f5e9);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    .main-section h2 {
+      color: #4caf50;
+      text-align: center;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .input-group input {
+      width: 300px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid #4caf50;
+      margin-bottom: 20px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .input-group input:focus {
+      border-color: #ffeb3b;
+      box-shadow: 0 0 8px rgba(255, 235, 59, 0.8);
+    }
+
+    .input-group button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4caf50;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .input-group button:hover {
+      background-color: #388e3c;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+      animation: fadeIn 1s ease-out;
+    }
+
+
+.result p {
+      font-size: 18px;
+      margin: 10px 0;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+    }
+
+    /* Animation for fading in result */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Add transition to the input box */
+    .input-group input {
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #ffeb3b;
+      box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+    }
+
+    .input-group button {
+      transition: background-color 0.3s ease;
+    }
+
+    .input-group button:hover {
+      background-color: #388e3c;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #4caf50;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      border-top: 5px solid #ffeb3b;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .footer-section {
+      flex: 1 1 calc(25% - 40px);
+      min-width: 200px;
+    }
+
+    .footer-section h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .footer-section p, .footer-section ul {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 5px;
+    }
+    /* Animation for sliding the footer */
+    @keyframes slideUp {
+      0% {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Company Logo">
+      <h1>ODA SBS</h1>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="comment.html">Comment</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="main-section">
+      <h2>View Your Placement</h2>
+      <div class="input-group">
+        <input type="text" id="rollNumber" placeholder="Enter your Roll Number">
+        <button onclick="findStudent()">Find</button>
+      </div>
+      <div class="result" id="result"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 ODA SBS. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Updated students array with roll numbers
+    const students = [
+      { rollNumber: 1, name: "Abdi Sisay", group: "Group 1", role: "Member" },
+      { rollNumber: 2, name: "Abdulkerim Kedir", group: "Group3", role: "Member" },
+      { rollNumber: 3, name: "Bekele Alemayehu", group: "Group4", role: "Member" },
+      { rollNumber: 4, name: "Dengaleso Abicho", group: "Group2", role: "Member" },
+      { rollNumber: 5, name: "Ebise Jote", group: "Group3", role: "Member" },
+      { rollNumber: 6, name: "Fenet Belachew", group: "Group4", role: "Member" },
+      { rollNumber: 7, name: "Fenet Chala", group: "Group1", role: "sec." },
+      { rollNumber: 8, name: "Fenet Gemachis", group: "Group4", role: "Leader" },
+      { rollNumber: 9, name: "Firaol Birhanu", group: "Group4", role: "sec." },
+      { rollNumber: 10, name: "Fuad Seyida", group: "Group3", role: "sec." },
+      { rollNumber: 11, name: "Gemachu bekele", group: "Group4", role: "Member" },
+      { rollNumber: 12, name: "Gemachu Fita", group: "Group5", role: "Member" },
+      { rollNumber: 13, name: "Godana Olko", group: "Group5", role: "Member" },
+      { rollNumber: 14, name: "Habtamu Feleke", group: "Group3", role: "Member" },
+      { rollNumber: 15, name: "Heran Garoma", group: "Group1", role: "Member" },
+      { rollNumber: 16, name: "IFTIYOM TESFAYE", group: "Group3", role: "Member" },
+      { rollNumber: 17, name: "Kabe Taye", group: "Group4", role: "Member" },
+      { rollNumber: 18, name: "Kena Fayera", group: "Group5", role: "Leader" },
+      { rollNumber: 19, name: "Kidist Lema", group: "Group3", role: "Leader" },
+      { rollNumber: 20, name: "Kuma Tule", group: "Group5", role: "Member" },
+      { rollNumber: 21, name: "Lalisa Gebayo", group: "Group1", role: "Member" },
+      { rollNumber: 22, name: "Meti Hunde", group: "Group2", role: "Member" },
+      { rollNumber: 23, name: "Milkiyas Birhanu", group: "Group5", role: "Member" },
+      { rollNumber: 24, name: "Nahom Debebe", group: "Group1", role: "Leader" },
+      { rollNumber: 25, name: "Saron Guluma", group: "Group2", role: "Member" },
+      { rollNumber: 26, name: "Sena Birhanu", group: "Group5", role: "Member" },
+      { rollNumber: 27, name: "Sena Gemeda", group: "Group1", role: "Member" },
+      { rollNumber: 28, name: "Sena Gudeta", group: "Group2", role: "sec." },
+      { rollNumber: 29, name: "Shitaye Guye", group: "Group5", role: "sec." },
+      { rollNumber: 30, name: "Sifan Ebsa", group: "Group3", role: "Member" },
+      { rollNumber: 31, name: "Sifan Kebede", group: "Group4", role: "Member" },
+      { rollNumber: 32, name: "Sifan Nuguse", group: "Group3", role: "Member" },
+      { rollNumber: 33, name: "Simbo Alemu", group: "Group2", role: "Member" },
+      { rollNumber: 34, name: "Telile Megersa", group: "Group1", role: "Member" },
+      { rollNumber: 35, name: "Tokuma Bayisa", group: "Group2", role: "Leader" },
+      { rollNumber: 36, name: "Tsion Nigussie", group: "Group5", role: "Member" },
+      { rollNumber: 37, name: "Wakuma Abebe", group: "Group2", role: "Member" },
+      { rollNumber: 38, name: "Wakweya Tadese", group: "Group1", role: "Member" }
+    ];
+
+   function findStudent() {
+  const rollNumber = parseInt(document.getElementById("rollNumber").value.trim());
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = "";
+
+  const student = students.find((student) => student.rollNumber === rollNumber);
+
+  if (student) {
+    const groupStudents = students.filter(s => s.group === student.group);
+    const leader = groupStudents.find(s => s.role === "Leader");
+    const secretary = groupStudents.find(s => s.role === "sec.");
+
+    let leaderInfo = leader ? `<p>Leader: ${leader.name}</p>` : "<p>No leader assigned</p>";
+    let secretaryInfo = secretary ? `<p>Secretary: ${secretary.name}</p>` : "<p>No secretary assigned</p>";
+
+    // List all members in the group excluding the current student
+    const groupMembers = groupStudents
+      .filter(s => s.rollNumber !== rollNumber) // Exclude the current student
+      .map(s => s.name);
+
+    let groupMembersInfo = groupMembers.length > 0 
+      ? "<p>Other group members:</p><ul>" + groupMembers.map(member => `<li>${member}</li>`).join('') + "</ul>"
+      : "<p>No other members in your group.</p>";
+
+    resultDiv.innerHTML = `
+      <p>Welcome, ${student.name}!</p>
+      <p>Group: ${student.group}</p>
+      <p>Role: ${student.role}</p>
+      ${leaderInfo}
+      ${secretaryInfo}
+      ${groupMembersInfo}
+      <p>Congratulations!</p>
+    `;
+  } else {
+    resultDiv.innerHTML = `<p>No student found with the provided roll number.</p>`;
+  }
+} 
+  </script>
+</body>
+</html>
+
