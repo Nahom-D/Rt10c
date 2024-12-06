@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Group Comment Submission</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e8f5e9; /* Light green background */
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+   
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32; /* Green */
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #2e7d32; /* Green */
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 2px solid #ffeb3b; /* Yellow */
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4caf50; /* Green */
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #388e3c;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    .modal h2 {
+      color: #2e7d32;
+    }
+    .modal p {
+      font-size: 16px;
+    }
+    .modal button {
+      background-color: #f44336; /* Red for close */
+    }
+    .modal button:hover {
+      background-color: #d32f2f;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: linear-gradient(45deg, #4caf50, #ffeb3b);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-bottom: 5px solid #4caf50;
+    }
+
+    header img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #fff;
+      margin: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav a {
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      background-color: #4caf50;
+      color: #fff;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #388e3c;
+    }
+    
+  </style>
+</head>
+<body>
+<header>
+    <div>
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Company Logo">
+      <h1>ODA SBS</h1>
+    </div>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="comment.html">Comment</a>
+    </nav>
+  </header>
+  
+  <div class="container">
+    <h1>Comment Submission</h1>
+    <textarea id="comment" placeholder="Enter your comment here..."></textarea>
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <div class="modal" id="successModal">
+    <h2>Comment Sent Successfully!</h2>
+    <p>Your comment has been uploaded to the group.</p>
+    <button onclick="closeModal('successModal')">Close</button>
+  </div>
+
+  <div class="modal" id="errorModal">
+    <h2>Error</h2>
+    <p>Please fill in all fields or try again later.</p>
+    <button onclick="closeModal('errorModal')">Close</button>
+  </div>
+
+  <div class="modal" id="networkErrorModal">
+    <h2>Network Error</h2>
+    <p>An error occurred while sending your comment. Please try again later.</p>
+    <button onclick="closeModal('networkErrorModal')">Close</button>
+  </div>
+
+  <script>
+    const sendBtn = document.getElementById('sendBtn');
+    const successModal = document.getElementById('successModal');
+    const errorModal = document.getElementById('errorModal');
+    const networkErrorModal = document.getElementById('networkErrorModal');
+
+    // Send comment to Telegram group
+    sendBtn.addEventListener('click', () => {
+      const comment = document.getElementById('comment').value.trim();
+
+      if (!comment) {
+        openModal('errorModal');
+        return;
+      }
+
+      // Get the student number from localStorage
+      const studentNumber = localStorage.getItem('1OCSTUDENT');
+      if (!studentNumber) {
+        openModal('errorModal');
+        return;
+      }
+
+      const groupId = "@qmsdlnd";
+      const botToken = "7653157990:AAEsEksIJv1eimdBhhRi8tg3nlYTvc9jZiQ";
+      const message = `Student #${studentNumber} commented: ${comment}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: groupId,
+          text: message
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          openModal('successModal');
+          document.getElementById('comment').value = '';
+        } else {
+          openModal('errorModal');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        openModal('networkErrorModal');
+      });
+    });
+
+    // Function to open modal by id
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'block';
+    }
+
+    // Close modal
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Passkey</title>
+    <style>
+        /* Reset margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            flex-direction: column;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #6a11cb;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #2575fc;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Your Passkey</h1>
+        <p>Please enter the passkey provided by the class representative below.</p>
+        <input type="password" id="passkeyInput" placeholder="Enter Passkey">
+        <button onclick="validatePasskey()">Submit</button>
+    </div>
+    <footer>Get the passkey from the representative of the class.</footer>
+
+    <script>
+        function validatePasskey() {
+            const correctPasskey = "110108";
+            const enteredPasskey = document.getElementById("passkeyInput").value;
+
+            if (enteredPasskey === correctPasskey) {
+                // Check if the user is a returning user by checking localStorage
+                if (localStorage.getItem('isReturningUser')) {
+                    // Redirect to home.html if the user is a returning user
+                    window.location.href = 'home.html';
+                } else {
+                    // Set localStorage flag indicating the user is now registered as a returning user
+                    localStorage.setItem('isReturningUser', true);
+                    // Redirect to pass.html if the user is a new user
+                    window.location.href = 'pass.html';
+                }
+            } else {
+                // Redirect to Download.html if the passkey is incorrect
+                window.location.href = 'Download.html';
+            }
+        }
+    </script>
+</body>
+</html>
